@@ -23,8 +23,8 @@ $ bin/bee version
 
 Create base project
 ```bash
-$ $ cd src
-sc-l-seizadi:src seizadi$ ../bin/bee new apigo
+$ cd github.com/seizadi/apipgo/
+$ ../../../../bin/bee new apigo
 [INFO] Creating application...
 ...
 2016/07/28 12:10:29 [SUCC] New application successfully created!
@@ -32,27 +32,34 @@ sc-l-seizadi:src seizadi$ ../bin/bee new apigo
 
 Run base project for test...
 ```bash
-sc-l-seizadi:src seizadi$ cd apigo/
-sc-l-seizadi:apigo seizadi$ ../../bin/bee run
+$ cd github.com/seizadi/apipgo/
+$ ../../../../bin/bee run
 ....
 2016/07/28 12:10:44 [asm_amd64.s:1998][I] http server Running on :8080
 ```
-I could not get this to work on path running a few levels below where it will live when it is checked in under, source control.
-```bash
-$ cd github.com/seizadi/apipgo/
-sc-l-seizadi:apipgo seizadi$ ../../../../bin/bee run
-....
-2016/07/28 14:01:18 [INFO] Start building...
-main.go:4:2: cannot find package "github.com/seizadi/apigo/routers" in any of:
-  /usr/local/go/src/github.com/seizadi/apigo/routers (from $GOROOT)
-  /Users/seizadi/projects/apigo/src/github.com/seizadi/apigo/routers (from $GOPATH)
-2016/07/28 14:01:19 [ERRO] ============== Build failed ===================
+
+#### Deploy Environment
+Get the packages from repo and run it.
+```
+TODO - Get godep to work to pull in BeeGo automatically
 ```
 
-#### Clone Repo and Setup Environment
-Get the repo and setup the environment.
 ```bash
-$ git clone ....
+Create base GOPATH target
+```bash
+$ cd /opt/apigo
+$ mkdir cloneapi
+$ cd cloneapi
+$ export GOPATH=`pwd`
+$ go get github.com/astaxie/beego
+$ go install  github.com/astaxie/beego
+$ go get github.com/beego/bee
+$ go get github.com/seizadi/apigo
+$ ../../../../bin/bee run
+....
+2016/07/28 17:58:02 [INFO] ./apigo is running...
+2016/07/28 17:58:02 [asm_amd64.s:1998][I] http server Running on :8080
+
 ```
 
 #### Initialize Portal
@@ -66,14 +73,66 @@ Run all tests before running server.
 #### Run the Server
 Run server development
 ```bash
-$ ....
+$ ../../../../bin/bee run -h
+usage: run [appname] [watchall] [-main=*.go] [-downdoc=true]  [-gendoc=true]  [-e=Godeps -e=folderToExclude]  [-tags=goBuildTags]
+```
+The standard default is:
+```bash
+$ ../../../../bin/bee run
+```
+The watchall option might be useful if you want to rebuild the project if any file changed
+
+```bash
+$ ../../../../bin/bee run
+$ ../../../../bin/bee run watchall
 ```
 
 ### Production
 Install in production cover various configurations standalone, nginx, https/cert...
-```bash
-$ ...
+In developement you can change the mode by:
+```go
+beego.RunMode = "prod"
 ```
+Or change it in conf/app.conf:
+```bash
+runmode = prod
+```
+The application is built in the top level project as application name 'apigo'. You just need to copy this file to the server and run it. There are also include static files, configuration files and templates, so these three folders also need to be copied to server while deploying.
+```bash
+$ mkdir /opt/app/apigo
+$ cp apigo /opt/app/apigo
+$ cp -fr views /opt/app/apigo
+$ cp -fr static /opt/app/apigo
+$ cp -fr conf /opt/app/apigo
+```
+Here is the folder structure in /opt/app/apigo:
+```bash
+.
+├── conf
+│   ├── app.conf
+├── static
+│   ├── css
+│   ├── img
+│   └── js
+└── views
+    └── index.tpl
+├── beepkg
+```
+#### Stand alone Deployment
+
+```bash
+$ cd /opt/app/apigo
+$ nohup ./apigo &
+```
+#### Service Deployment
+```
+TODO - Need guide to run it directly so it responds to 'service apigo [start/stop/restart]'
+```
+Here is the Beego guide for wrapping the application as a service using Supervisord utility: http://beego.me/docs/deploy/supervisor.md
+
+#### Deployment with Nginx
+Here is the Beego guide for the configuration file for running it with nginx:
+http://beego.me/docs/deploy/nginx.md
 
 ## Implementation Guide
 
