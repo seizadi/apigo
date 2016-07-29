@@ -116,7 +116,7 @@ Here is the folder structure in /opt/app/apigo:
 │   └── js
 └── views
     └── index.tpl
-├── beepkg
+├── apigo
 ```
 #### Stand alone Deployment
 

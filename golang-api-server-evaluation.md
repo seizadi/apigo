@@ -15,7 +15,7 @@ import (
 ```
 These are the same packages supported by Macaron, both packages support MVC design pattern. 
 
-I think for developers coming from Rails, like me :) the Beego environment is more friendly it has retained the Rails [convention over confiugration pattern](https://en.wikipedia.org/wiki/Convention_over_configuration). The Beego bee command has generators for controllers, models, views and migrations that closely mimic [rails generate command](http://guides.rubyonrails.org/command_line.html#rails-generate).
+I think for developers coming from Rails the Beego environment is more friendly it has retained the Rails [convention over confiugration pattern](https://en.wikipedia.org/wiki/Convention_over_configuration). The Beego bee command has generators for controllers, models, views and migrations that closely mimic [rails generate command](http://guides.rubyonrails.org/command_line.html#rails-generate).
 
 Both Macraon and Beego have very similar features although in some cases they are named different Beego-NameSpaces vs Macaron-Groups or Beego-Controllers vs Macaron-Handlers. Neither framework supports AngularJS with a modern Grunt or Gulp asset pipeline, so this would have to be done seperately, again you can [reference Grafana for an example of this for Macaron.](http://grafana.org/)
 
